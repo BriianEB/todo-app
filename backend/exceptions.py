@@ -1,5 +1,5 @@
 class APIError(Exception):
-    """Clase genérica de error HTTP."""
+    """Clase genérica de errores."""
 
     status_code = 400
 
