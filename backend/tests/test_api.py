@@ -1,6 +1,6 @@
 import unittest
 
-from app import create_app
+from ..app import create_app
 from database import db
 
 class APITestCase(unittest.TestCase):
