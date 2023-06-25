@@ -9,6 +9,7 @@ from database import db
 from errors import register_errors_handlers
 
 from controllers import tasks
+from models import Task
 
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
@@ -33,3 +34,16 @@ def create_app(config_name):
     return app
 
 app = create_app(os.environ.get('APP_ENV'))
+
+# Agrega los modelos al context del shell de flask
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, Task=Task)
+
+# Crea un comando para ejecutar las pruebas
+@app.cli.command()
+def test():
+    import unittest
+
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)

@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, make_response, request, url_for
 from werkzeug.exceptions import NotFound
 
 from database import db
@@ -9,7 +9,7 @@ from utils.validation import validate
 tasks = Blueprint('tasks', __name__)
 
 @tasks.route('/tasks')
-def index():
+def index():    
     tasks = db.session.scalars(db.select(Task)).all()
 
     return [task.to_dict() for task in tasks]
@@ -29,7 +29,11 @@ def create():
     db.session.add(task)
     db.session.commit()
 
-    return task.to_dict()
+    return make_response(
+        task.to_dict(),
+        201,
+        {'Location': url_for('tasks.show', uuid=task.uuid, _external=True)}
+    )
 
 @tasks.route('/tasks/<uuid>')
 def show(uuid):
@@ -70,4 +74,4 @@ def destroy(uuid):
     db.session.delete(task)
     db.session.commit()
 
-    return task.to_dict()
+    return make_response({}, 204)
