@@ -6,9 +6,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <ThemeProvider>
-        <Container maxWidth="false">
-          <Component {...pageProps} />
-        </Container>
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   );

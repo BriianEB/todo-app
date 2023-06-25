@@ -8,11 +8,11 @@ const Container = styled('div')({
 });
 
 const Main = styled('main')({
-  paddingTop: '1rem',
-  paddingBottom: '10rem'
+  marginTop: '1rem',
+  marginBottom: '10rem'
 });
 
-function Layout() {
+function Layout({ children }) {
   return (
     <Container>
       <Header />
