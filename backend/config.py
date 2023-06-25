@@ -1,9 +1,33 @@
 import os
-from pathlib import Path
+
+from database.config import get_database_uri
 
 
-BASE_DIR = Path(__file__).resolve(strict=True).parent
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-class Config:    
+    @staticmethod
+    def init_app(app):
+        pass
+
+
+class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'database/data.db')
+    SQLALCHEMY_DATABASE_URI = get_database_uri()
+
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
+
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = get_database_uri()
+
+
+config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
+}
