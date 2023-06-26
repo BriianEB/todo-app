@@ -16,7 +16,7 @@ function ThemeProvider({ children }) {
     return {
       components: components,
       palette: palette,
-      shape: { borderRadius: 4 },
+      shape: { borderRadius: 8 },
         typography: {
           body3: {
             fontSize: '0.82rem',

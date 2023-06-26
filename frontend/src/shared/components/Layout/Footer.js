@@ -6,7 +6,7 @@ const Container = styled('div')({
   position: 'absolute',
   bottom: '0',
   width: '100%',
-  height: '10rem',
+  height: '80px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -17,16 +17,20 @@ const Separator = styled('span')({
   backgroundColor: '#fff',
   width: 4,
   height: 4,
-  mx: 1,
-  borderRadius: '50%'  
+  margin: '0 0.75rem',
+  borderRadius: '50%'
 });
 
 function Footer () {
   return (
     <Container>
-      <Typography variant="subtitle2">Ejercicio de programación Neuronix</Typography>
+      <Typography sx={{fontWeight: 'bold'}}>
+        Ejercicio de programación Neuronix
+      </Typography>
       <Separator />
-      <Typography variant="subtitle2">Brian Becerra</Typography>
+      <Typography sx={{fontWeight: 'bold'}}>
+        Brian Becerra
+      </Typography>
     </Container>
   );
 }

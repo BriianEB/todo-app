@@ -1,10 +1,13 @@
+import { getButtonShadow } from "../customShadows";
+
+
 const MuiButton = {
   styleOverrides: {
-    root: ({ theme }) => ({
-      boxShadow: 'none',
+    root: ({ ownerState, theme }) => ({
+      boxShadow: getButtonShadow(theme.palette[ownerState.color].main),
       textTransform: 'none',
       '&:hover': {
-        boxShadow: 'none'
+        boxShadow: getButtonShadow(theme.palette[ownerState.color].main)
       }
     })
   }
