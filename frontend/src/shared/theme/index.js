@@ -9,21 +9,17 @@ import {
 import components from './components';
 import customShadows from './customShadows';
 import palette from './palette';
+import typography from './typography';
 
 
 function ThemeProvider({ children }) {
   const themeOptions = useMemo(function () {
     return {
-      components: components,
-      palette: palette,
+      components,
+      palette,
       shape: { borderRadius: 8 },
-        typography: {
-          body3: {
-            fontSize: '0.82rem',
-            fontWeight: 400
-          }
-        },
-      customShadows: customShadows
+      typography,
+      customShadows
     };
   }, []);
 

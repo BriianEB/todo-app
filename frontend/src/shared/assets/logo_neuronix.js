@@ -55,4 +55,4 @@ function LogoNeuronix({ ...other }) {
   );
 }
 
-export default LogoNeuronix;
+export default memo(LogoNeuronix);

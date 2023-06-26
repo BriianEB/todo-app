@@ -18,7 +18,7 @@ function TasksNotFound() {
     <Container>
       <IllustrationNoTasks />
       <Box sx={{ mt: 1, textAlign: 'center' }}>
-        <Typography variant="h4" sx={{mb: 1, fontSize: '20px', fontWeight: 'bold'}}>
+        <Typography variant="h4" sx={{mb: 1}}>
           No se encontraron tareas.
         </Typography>
         <Typography variant="body1" color="text.disabled">

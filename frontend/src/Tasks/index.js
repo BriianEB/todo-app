@@ -18,7 +18,7 @@ function Tasks() {
             mb: '2.25rem'
           }}
         >
-          <Typography variant="h1" sx={{fontSize: '2rem', fontWeight: 'bold'}}>
+          <Typography variant="h1">
             Lista de tareas
           </Typography>
           <Button variant="contained" startIcon={<AddTaskIcon />}>
