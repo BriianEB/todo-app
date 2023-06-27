@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
+import useResponsive from '@/shared/hooks/useResponsive';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -28,21 +29,31 @@ const Background = styled('div')(({ theme }) => ({
 }));
 
 
-const Main = styled('main')({    
+const Main = styled('main')({
   width: '100%',
-  height: 'calc(100vh - 180px)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center'
 });
 
 function Layout({ children }) {
+  const isDesktop = useResponsive('up', 'lg');
+
   return (
     <Container>
-      <Background />     
+      {isDesktop && <Background />}
       <Header />      
-      <Main>
-        <Box sx={{width: '100%', maxWidth: '1200px'}}>
+      <Main
+        sx={{
+          padding: { xs: '0 2rem 80px', lg: '0 0 80px' }
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: { lg: '900px', xl: '1200px' }
+          }}
+        >
           {children}
         </Box>
       </Main>

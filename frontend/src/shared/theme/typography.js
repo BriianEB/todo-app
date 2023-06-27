@@ -18,6 +18,16 @@ const typography = {
     fontWeight: 700,
     fontSize: pxToRem(20),
     ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 })
+  },
+  h5: {
+    fontWeight: 700,
+    fontSize: pxToRem(18),
+    ...responsiveFontSizes({ sm: 19, md: 20, lg: 20 })
+  },
+  h6: {
+    fontWeight: 700,
+    fontSize: pxToRem(17),
+    ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 })
   }
 };
 

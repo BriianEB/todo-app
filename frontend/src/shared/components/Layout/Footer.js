@@ -1,6 +1,8 @@
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import useResponsive from '@/shared/hooks/useResponsive';
+
 
 const Container = styled('div')({
   position: 'absolute',
@@ -9,8 +11,7 @@ const Container = styled('div')({
   height: '80px',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
-  color: '#fff'
+  alignItems: 'center'
 });
 
 const Separator = styled('span')({
@@ -18,16 +19,25 @@ const Separator = styled('span')({
   width: 4,
   height: 4,
   margin: '0 0.75rem',
-  borderRadius: '50%'
+  borderRadius: '50%',
 });
 
 function Footer () {
+  const isDesktop = useResponsive('up', 'lg');
+
   return (
-    <Container>
+    <Container
+      sx={{
+        color: { xs: 'text.primary', lg: '#fff' },
+        flexDirection: { xs: 'column', lg: 'row' }
+      }}
+    >
       <Typography sx={{fontWeight: 'bold'}}>
         Ejercicio de programación Neuronix
       </Typography>
-      <Separator />
+
+      {isDesktop && <Separator />}
+
       <Typography sx={{fontWeight: 'bold'}}>
         Brian Becerra
       </Typography>

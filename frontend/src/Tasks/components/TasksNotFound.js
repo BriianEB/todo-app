@@ -16,9 +16,13 @@ const Container = styled('div')({
 function TasksNotFound() {
   return (
     <Container>
-      <IllustrationNoTasks />
+      <IllustrationNoTasks
+        sx={{
+          width: { sm: '400px' },
+        }}
+      />
       <Box sx={{ mt: 1, textAlign: 'center' }}>
-        <Typography variant="h4" sx={{mb: 1}}>
+        <Typography variant="h5" sx={{mb: 1}}>
           No se encontraron tareas.
         </Typography>
         <Typography variant="body1" color="text.disabled">
