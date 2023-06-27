@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card } from "@mui/material";
 
 import useResponsive from '@/shared/hooks/useResponsive';
 import Task from "./Task";
@@ -18,7 +18,7 @@ function TasksList({ tasks }) {
         py: 4,
       }}
     >
-      {!tasks ? (
+      {tasks.length === 0 ? (
         <TasksNotFound />
       ) : (
         tasks.map((task) => (

@@ -1,41 +1,26 @@
-import { useState } from "react";
-import { Box, Button, Fab, Typography } from "@mui/material";
+import { useEffect, useState } from 'react';
+import { Box, Button, CircularProgress, Fab, Typography } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 
+import useApi from '@/shared/hooks/useApi';
 import useResponsive from '@/shared/hooks/useResponsive';
-import Layout from "@/shared/components/Layout";
-import Page from "@/shared/components/Page";
-import TasksList from "./components/TasksList";
-import TaskForm from "./components/TaskForm";
-
-const tasks = [
-  {
-    uuid: '04909',
-    name: 'Tarea 1',
-    completed: false
-  },
-  {
-    uuid: '9430d',
-    name: 'Tarea 2',
-    completed: false
-  },
-  {
-    uuid: 'fd43fa',
-    name: 'Tarea 3',
-    completed: false
-  },
-  {
-    uuid: 'f4g5gv',
-    name: 'Tarea 4',
-    completed: false
-  }
-];
+import Layout from '@/shared/components/Layout';
+import Page from '@/shared/components/Page';
+import TasksList from './components/TasksList';
+import TaskForm from './components/TaskForm';
 
 
 function Tasks() {
   const isMobile = useResponsive('down', 'sm');
 
   const [showForm, setShowForm] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const { request: getTasks, status, data: tasks } = useApi.get('/tasks');
+
+  useEffect(function () {
+    getTasks();
+  }, [getTasks]);
 
   function handleShowForm() {    
     setShowForm(true);
@@ -54,7 +39,7 @@ function Tasks() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            mb: '2.25rem'
+            mb: { lg: '2.25rem' }
           }}
         >
           <Typography variant="h4">
@@ -84,12 +69,28 @@ function Tasks() {
           )}
         </Box>
 
-        <TasksList tasks={tasks} />
+        {}
+        {status === 'completed' ? (
+          <TasksList tasks={tasks} />
+        ) : (
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mt: '20vh'
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
         
-        <TaskForm
-          open={showForm}
-          onClose={handleCloseForm}
-        />
+        {showForm && (
+          <TaskForm
+            open={showForm}
+            onClose={handleCloseForm}
+            getTasks={getTasks}
+          />
+        )}
       </Layout>
     </Page>
   );

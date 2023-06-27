@@ -27,6 +27,9 @@ const palette = {
   primary: {
     main: '#548DFA'
   },
+  error: {
+    main: '#E63B61'
+  },
   grey: GREY,
   action: {
     hover: GREY[500_8],
