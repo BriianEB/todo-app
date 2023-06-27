@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const apiUrl = 'http://localhost:5000';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 function apiRequest(method, endpoint, data, params) {
   const headers = {
