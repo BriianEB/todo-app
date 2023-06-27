@@ -4,29 +4,31 @@ import useDeepMemo from './useDeepMemo';
 import apiRequest from '@/shared/utils/apiRequest';
 
 
-function apiReducer(state, action) {
-  if (action.type === 'SEND') {
-    return {
-      status: 'pending',
+function reducer(state, action) {
+  switch (action.type) {
+    case 'SEND': {
+      return {
+        status: 'pending',
         data: null,
         error: null
       };
-  }
+    }
 
-  if (action.type === 'SUCCESS') {
-    return {
-      status: 'completed',
-      data: action.data,
-      error: null
-    };
-  }
+    case 'SUCCESS': {
+      return {
+        status: 'completed',
+        data: action.data,
+        error: null
+      };
+    }
 
-  if (action.type === 'ERROR') {
-    return {
-      status: 'error',
-      data: null,
-      error: action.error
-    };
+    case 'ERROR': {
+      return {
+        status: 'error',
+        data: null,
+        error: action.error
+      };
+    }
   }
 
   return state;
@@ -37,7 +39,7 @@ function apiReducer(state, action) {
 function useApi(method, endpoint, instanceParams) {
   const memoParams = useDeepMemo(instanceParams);
 
-  const [state, dispatch] = useReducer(apiReducer, {
+  const [state, dispatch] = useReducer(reducer, {
     status: null,
     data: null,
     error: null

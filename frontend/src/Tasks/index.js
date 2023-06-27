@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, Fab, Typography } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 
@@ -9,8 +9,11 @@ import Page from '@/shared/components/Page';
 import TasksList from './components/TasksList';
 import TaskForm from './components/TaskForm';
 
+import TaskContext from './contexts/TaskContext';
+
 
 function Tasks() {
+  //const taskCtx = useContext(TaskContext);  
   const isMobile = useResponsive('down', 'sm');
 
   const [showForm, setShowForm] = useState(false);
@@ -33,64 +36,66 @@ function Tasks() {
   return (
     <Page title="Lista de tareas">
       <Layout>
-        <Box
-          sx={{            
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: { lg: '2.25rem' }
-          }}
-        >
-          <Typography variant="h4">
-            Lista de tareas
-          </Typography>
-          
-          {isMobile ? (
-            <Fab
-              color="primary"
-              sx={{
-                position: 'fixed',
-                right: '2rem',
-                bottom: '4rem'
-              }}
-              onClick={handleShowForm}
-            >
-              <AddTaskIcon />
-            </Fab>
-          ) : (
-            <Button
-              variant="contained"
-              startIcon={<AddTaskIcon />}
-              onClick={handleShowForm}
-            >
-              Nueva tarea
-            </Button>
-          )}
-        </Box>
-
-        {}
-        {status === 'completed' ? (
-          <TasksList tasks={tasks} />
-        ) : (
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            mt: '20vh'
+        
+          <Box
+            sx={{            
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: { lg: '2.25rem' }
             }}
           >
-            <CircularProgress />
+            <Typography variant="h4">
+              Lista de tareas
+            </Typography>
+            
+            {isMobile ? (
+              <Fab
+                color="primary"
+                sx={{
+                  position: 'fixed',
+                  right: '2rem',
+                  bottom: '4rem'
+                }}
+                onClick={handleShowForm}
+              >
+                <AddTaskIcon />
+              </Fab>
+            ) : (
+              <Button
+                variant="contained"
+                startIcon={<AddTaskIcon />}
+                onClick={handleShowForm}
+              >
+                Nueva tarea
+              </Button>
+            )}
           </Box>
-        )}
+
+          {}
+          {status === 'completed' ? (
+            <TasksList tasks={tasks} />
+          ) : (
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mt: '20vh'
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          
+          {showForm && (
+            <TaskForm
+              open={showForm}
+              onClose={handleCloseForm}
+              getTasks={getTasks}
+            />
+          )}
         
-        {showForm && (
-          <TaskForm
-            open={showForm}
-            onClose={handleCloseForm}
-            getTasks={getTasks}
-          />
-        )}
       </Layout>
     </Page>
   );
