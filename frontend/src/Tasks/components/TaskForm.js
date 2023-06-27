@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -10,12 +10,13 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  TextField,
-  Typography
+  TextField,  
 } from '@mui/material';
 
 import useApi from '@/shared/hooks/useApi';
 import useResponsive from '@/shared/hooks/useResponsive';
+import useToast from '@/shared/hooks/useToast';
+import { TaskContext } from '../contexts/TaskContext';
 
 
 const validations = {
@@ -28,25 +29,40 @@ const validations = {
 };
 
 function TaskForm({ open, onClose, getTasks }) {
+  const { selectedTask, clearTask } = useContext(TaskContext);
   const isMobile = useResponsive('down', 'md');
+  const { success } = useToast();
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      name: '',
+      name: selectedTask ? selectedTask.name : '',
     }
   });
 
-  const { request: createTask, status } = useApi.post('/tasks');
+  let request;
+
+  if (selectedTask) {
+    request = useApi.patch(`/tasks/${selectedTask.uuid}`);
+  } else {
+    request = useApi.post('/tasks');
+  }
 
   useEffect(function () {
-    if (status === 'completed') {
+    if (request.status === 'completed') {      
+      if (selectedTask) {
+        success('Tarea modificada correctamente.');
+        clearTask();
+      } else {
+        success('Tarea agregada correctamente.');
+      }
+
       getTasks();
       onClose();
     }
-  }, [status]);
+  }, [request.status]);
 
   function submitHandler(data) {
-    createTask(data);
+    request.request(data);
   }
 
   return (
@@ -72,7 +88,9 @@ function TaskForm({ open, onClose, getTasks }) {
               <CloseIcon />
             </IconButton>
 
-            <Box component="span" sx={{ ml: 5 }}>Crear nueva tarea</Box>
+            <Box component="span" sx={{ ml: 5 }}>
+              {selectedTask ? 'Modificar' : 'Crear nueva' } tarea
+            </Box>
 
             <Button
               type="submit"
@@ -83,12 +101,12 @@ function TaskForm({ open, onClose, getTasks }) {
                 top: 12,
               }}
             >
-              Crear
-              </Button>
+              {selectedTask ? 'Guardar' : 'Crear' }
+            </Button>
           </DialogTitle>
         ) : (
           <DialogTitle>
-            Crear nueva tarea
+            {selectedTask ? 'Modificar' : 'Crear nueva' } tarea
 
             <IconButton
               aria-label="close"
@@ -131,7 +149,9 @@ function TaskForm({ open, onClose, getTasks }) {
         {!isMobile && (
           <DialogActions sx={{px: 2.5, py: 2}}>
             <Button onClick={onClose} sx={{color: 'text.secondary'}}>Cancelar</Button>
-            <Button type="submit" variant="contained">Crear tarea</Button>
+            <Button type="submit" variant="contained">
+              {selectedTask ? 'Guardar' : 'Crear' } tarea
+            </Button>
           </DialogActions>
         )}
       </form>

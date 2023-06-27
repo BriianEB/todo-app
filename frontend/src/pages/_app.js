@@ -1,6 +1,7 @@
 import Head from 'next/head';
+import ThemeProvider from '@/shared/theme';
 
-import ThemeProvider from "@/shared/theme";
+import { ToastProvider } from '@/shared/contexts/ToastContext';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -11,7 +12,9 @@ export default function App({ Component, pageProps }) {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <ThemeProvider>
-        <Component {...pageProps} />
+        <ToastProvider>          
+          <Component {...pageProps} />
+        </ToastProvider>
       </ThemeProvider>
     </>
   );

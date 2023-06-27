@@ -2,31 +2,59 @@ import { createContext, useReducer } from 'react';
 
 
 const initialState = {
-  selectedTask: null
+  selectedTask: null,
+  actionOnTask: null
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'SET_TASK': {
+    case 'TO_EDIT': {
       return {
-        selectedTask: action.task
+        selectedTask: action.task,
+        actionOnTask: 'edit'
       };
+    }
+
+    case 'TO_DELETE': {
+      return {
+        selectedTask: action.task,
+        actionOnTask: 'delete'
+      };
+    }
+    
+    case 'CLEAR_TASK': {
+      return initialState;
     }
   }
 }
 
 const TaskContext = createContext({
   ...initialState,
-  setTask: () => {}
+  setToEdit: () => {},
+  setToDelete: () => {},
+  clearTask: () => {}
 });
 
 function TaskProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  function setTask(task) {
+  
+  function setToEdit(task) {
     dispatch({
-      type: 'SET_TASK',
+      type: 'TO_EDIT',
       task
+    });
+  }
+
+  function setToDelete(task) {
+    dispatch({
+      type: 'TO_DELETE',
+      task
+    });
+  }
+
+  function clearTask() {
+    dispatch({
+      type: 'CLEAR_TASK'
     });
   }
 
@@ -34,7 +62,9 @@ function TaskProvider({ children }) {
     <TaskContext.Provider
       value={{
         ...state,
-        setTask
+        setToEdit,
+        setToDelete,
+        clearTask
       }}
     >
       {children}
